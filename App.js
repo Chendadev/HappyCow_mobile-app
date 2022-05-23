@@ -1,20 +1,68 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// In App.js in a new project
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-export default function App() {
+import { Feather } from '@expo/vector-icons';
+// PAGES : 
+import RestaurantsScreen from "./containers/RestaurantsScreen.js";
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Happy Cow</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="Restaurant">
+          {() => (
+            <Tab.Navigator
+              screenOptions={{
+                headerShown: false,
+                tabBarActiveTintColor: "purple",
+                tabBarInactiveTintColor: "gray",
+              }}
+            >
+              <Tab.Screen
+                name="Explorer"
+                options={{
+                  tabBarLabel: "Explorer",
+                  tabBarIcon: ({ color, size }) => (
+                    <Feather name="search" size={size} color={color} />
+                  ),
+                }}
+              >
+                {() => (
+                  <Stack.Navigator
+                    screenOptions={{
+                      headerTitle: () => <RestaurantsScreen />
+                    }}
+                  >
+
+                    <Stack.Screen
+                      name="Explorer"
+                      options={{
+                        title: "Explorer",
+                      }}
+                    >
+                      {() => <RestaurantsScreen />}
+                    </Stack.Screen>
+
+                  </Stack.Navigator>
+                )}
+              </Tab.Screen>
+
+            </Tab.Navigator>
+          )}
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer >
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
