@@ -32,9 +32,9 @@ function App() {
               }}
             >
               <Tab.Screen
-                name="Explorer"
+                name="explo"
                 options={{
-                  tabBarLabel: "Explorer",
+                  tabBarLabel: "Exploration",
                   tabBarIcon: ({ color, size }) => (
                     <Feather name="search" size={size} color={color} />
                   ),
@@ -42,15 +42,15 @@ function App() {
               >
                 {() => (
                   <Stack.Navigator
-                    screenOptions={{
-                      headerTitle: () => <RestaurantsScreen />
-                    }}
+                  // screenOptions={{
+                  //   headerTitle: () => <RestaurantsScreen />
+                  // }}
                   >
 
                     <Stack.Screen
-                      name="Explorer"
+                      name="Explorerbis"
                       options={{
-                        title: "Explorer",
+                        title: "Liste Restau",
                       }}
                     >
                       {() => <RestaurantsScreen />}
@@ -64,7 +64,7 @@ function App() {
               <Tab.Screen
                 name="Favoris"
                 options={{
-                  tabBarLabel: "Favoris",
+                  tabBarLabel: "favoris",
                   tabBarIcon: ({ color, size }) => (
                     <AntDesign name="hearto" size={24} color="black" />
                   ),
@@ -80,7 +80,7 @@ function App() {
                     <Stack.Screen
                       name="Favoris"
                       options={{
-                        title: "Favoris",
+                        title: "favoris",
                       }}
                     >
                       {() => <FavoritesScreen />}
@@ -94,7 +94,7 @@ function App() {
               <Tab.Screen
                 name="Map"
                 options={{
-                  tabBarLabel: "Map",
+                  tabBarLabel: "map",
                   tabBarIcon: ({ color, size }) => (
                     <Feather name="map-pin" size={24} color="black" />
                   ),
@@ -110,7 +110,7 @@ function App() {
                     <Stack.Screen
                       name="Map"
                       options={{
-                        title: "Map",
+                        title: "map",
                       }}
                     >
                       {() => <MapScreen />}
