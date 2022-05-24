@@ -1,8 +1,13 @@
-import { Text, View, FlatList, Image, StyleSheet, SafeAreaView } from "react-native";
+import { Text, View, FlatList, Image, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import data from "../assets/data.json";
+import { useNavigation } from "@react-navigation/core";
+
+// page : 
+import RestaurantScreen from "./RestaurantScreen";
 
 export default function RestaurantsScreen() {
+    const navigation = useNavigation();
     const stars = (nbEtoile) => {
         const array = [];
         for (let i = 0; i < 5; i++) {
@@ -26,9 +31,15 @@ export default function RestaurantsScreen() {
                                 <View style={styles.container}>
                                     <View style={styles.containerRestaurant}>
                                         <View style={styles.leftBloc}>
-                                            <Image source={{ uri: item.thumbnail }}
-                                                style={styles.imgRestaurant}
-                                            />
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    navigation.navigate("Restaurant", { Restaurant: item })
+                                                }}
+                                            >
+                                                <Image source={{ uri: item.thumbnail }}
+                                                    style={styles.imgRestaurant}
+                                                />
+                                            </TouchableOpacity>
                                         </View>
                                         <View style={styles.rightBloc}>
                                             <View style={styles.leftRightBloc}>

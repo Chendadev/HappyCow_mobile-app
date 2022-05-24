@@ -8,6 +8,7 @@ import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 // PAGES : 
 import RestaurantsScreen from "./containers/RestaurantsScreen.js";
+import RestaurantScreen from "./containers/RestaurantScreen.js";
 import FavoritesScreen from "./containers/FavoritesScreen.js";
 import MapScreen from "./containers/MapScreen.js";
 
@@ -55,7 +56,11 @@ function App() {
                     >
                       {() => <RestaurantsScreen />}
                     </Stack.Screen>
-
+                    <Stack.Screen
+                      name="Restaurant"
+                    >
+                      {() => <RestaurantScreen />}
+                    </Stack.Screen>
                   </Stack.Navigator>
                 )}
               </Tab.Screen>
