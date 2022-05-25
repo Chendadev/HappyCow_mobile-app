@@ -1,4 +1,4 @@
-import { Text, View, FlatList, Image, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
+import { Text, View, FlatList, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import data from "../assets/data.json";
 import { useNavigation } from "@react-navigation/core";
@@ -6,15 +6,18 @@ import { useNavigation } from "@react-navigation/core";
 // page : 
 import RestaurantScreen from "./RestaurantScreen";
 
+// component: 
+import SearchInput from "../components/SearchInput";
+
 export default function RestaurantsScreen() {
     const navigation = useNavigation();
     const stars = (nbEtoile) => {
         const array = [];
         for (let i = 0; i < 5; i++) {
             if (i < nbEtoile) {
-                array.push(<AntDesign name="star" size={15} color="orange" />);
+                array.push(<AntDesign name="star" size={15} color="orange" key={i} />);
             } else {
-                array.push(<AntDesign name="star" size={15} color="grey" />);
+                array.push(<AntDesign name="star" size={15} color="grey" key={i} />);
             }
         }
         return array;
@@ -24,6 +27,7 @@ export default function RestaurantsScreen() {
         <View>
             <FlatList
                 data={data}
+                keyExtractor={item => item.placeId}
                 renderItem={
                     ({ item }) => {
                         return (

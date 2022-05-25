@@ -113,9 +113,9 @@ function App() {
                   >
 
                     <Stack.Screen
-                      name="Map"
+                      name="MapPage"
                       options={{
-                        title: "map",
+                        title: "maap",
                       }}
                     >
                       {() => <MapScreen />}
