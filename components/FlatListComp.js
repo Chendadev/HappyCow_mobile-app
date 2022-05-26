@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons';
 import mydata from "../assets/data.json";
 
+
 export default function FlatListComp() {
     const [filteredData, setFilteredData] = useState(mydata);
     const navigation = useNavigation();

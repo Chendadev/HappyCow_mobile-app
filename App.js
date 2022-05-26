@@ -3,6 +3,8 @@ import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState } from "react";
 
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -15,6 +17,8 @@ import MapScreen from "./containers/MapScreen.js";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+const [appIsReady, setAppIsReady] = useState(false);
+
 function App() {
   return (
     <NavigationContainer>
@@ -24,7 +28,7 @@ function App() {
         }}
       >
         <Stack.Screen name="Restaurants">
-          {() => (
+          {(props) => (
             <Tab.Navigator
               screenOptions={{
                 headerShown: false,
@@ -88,7 +92,7 @@ function App() {
                         title: "favoris",
                       }}
                     >
-                      {() => <FavoritesScreen />}
+                      {(props) => <FavoritesScreen {...props} />}
                     </Stack.Screen>
 
                   </Stack.Navigator>

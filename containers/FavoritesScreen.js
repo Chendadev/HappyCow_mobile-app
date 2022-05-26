@@ -1,16 +1,14 @@
-import { Text, View, TouchableOpacity, FlatList, SafeAreaView, ScrollView } from 'react-native'
-import React, { Component } from 'react'
-import data from "../assets/data.json";
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { Text, View } from 'react-native'
+import { useState } from "react";
 
 export default function FavoritesScreen() {
 
+
     return (
-        <SafeAreaView>
-            <ScrollView>
-                <View>
-                    <Text uniq>{data}</Text>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+        <View>
+            <Text>FavoritesScreen</Text>
+
+        </View>
     )
 }
