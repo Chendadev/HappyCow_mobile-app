@@ -3,11 +3,13 @@ import MapView from "react-native-maps";
 import * as Location from "expo-location";
 import mydata from "../assets/data.json";
 import { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+
+// container : 
+import RestaurantScreen from "./RestaurantScreen";
 
 export default function MapScreen({ navigation }) {
 
-    const [data, setData] = useState();
+    const [data, setData] = useState(mydata);
     const [isLoading, setIsLoading] = useState(true);
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
@@ -36,12 +38,12 @@ export default function MapScreen({ navigation }) {
         };
         getPermissionAndLocationAndFetchData();
     }, []);
+
     return isLoading ? (
         <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="green" />
         </View>
     ) : (
-        // data && (
         <View style={{ flex: 1 }}>
             <MapView
                 showUserLocation={true}
@@ -54,12 +56,14 @@ export default function MapScreen({ navigation }) {
                 }}
             >
                 {mydata.map((company, index) => {
+
+                    console.log(company.type)
                     return (
                         <MapView.Marker
                             onPress={() => {
-                                navigation.navigate("RestaurantScreen", { id: company.placeId })
+                                navigation.navigate("Restaurant", { id: company.placeId })
                             }}
-                            pinColor="orange"
+                            // pinColor={checkColor(company.type)}
                             key={index}
                             coordinate={{
                                 latitude: company.location.lat,
@@ -70,8 +74,6 @@ export default function MapScreen({ navigation }) {
                 })}
             </MapView>
         </View>
-
-        //  )
     )
 };
 

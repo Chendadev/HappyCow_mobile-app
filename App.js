@@ -77,9 +77,9 @@ function App() {
               >
                 {() => (
                   <Stack.Navigator
-                    screenOptions={{
-                      headerTitle: () => <FavoritesScreen />
-                    }}
+                  // screenOptions={{
+                  //   headerTitle: () => <FavoritesScreen />
+                  // }}
                   >
 
                     <Stack.Screen
