@@ -1,4 +1,4 @@
-import { Text, View, FlatList, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput } from "react-native";
+import { Text, View, FlatList, Image, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, } from "react-native";
 import { useState } from "react"
 import data from "../assets/data.json";
 

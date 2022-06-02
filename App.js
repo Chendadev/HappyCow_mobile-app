@@ -1,5 +1,3 @@
-// In App.js in a new project
-import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -8,27 +6,32 @@ import { useState } from "react";
 
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+
 // PAGES : 
 import RestaurantsScreen from "./containers/RestaurantsScreen.js";
 import RestaurantScreen from "./containers/RestaurantScreen.js";
 import FavoritesScreen from "./containers/FavoritesScreen.js";
 import MapScreen from "./containers/MapScreen.js";
 
+//components : 
+import Logo from "./components/Logo";
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const [appIsReady, setAppIsReady] = useState(false);
-
 function App() {
+  const [favorites, setFavorites] = useState([]);
   return (
+
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false,
+          headerTitle: () => <Logo />
         }}
       >
+
         <Stack.Screen name="Restaurants">
-          {(props) => (
+          {() => (
             <Tab.Navigator
               screenOptions={{
                 headerShown: false,
@@ -36,34 +39,37 @@ function App() {
                 tabBarInactiveTintColor: "gray",
               }}
             >
+
               <Tab.Screen
-                name="explo"
+                name="exploration"
                 options={{
                   tabBarLabel: "Exploration",
                   tabBarIcon: ({ color, size }) => (
                     <Feather name="search" size={size} color={color} />
-                  ),
+                  )
                 }}
               >
+
                 {() => (
                   <Stack.Navigator
                   // screenOptions={{
-                  //   headerTitle: () => <RestaurantsScreen />
+                  //   headerTitle: () => <Logo />
                   // }}
                   >
-
                     <Stack.Screen
                       name="Explorerbis"
                       options={{
                         title: "Liste Restau",
                       }}
                     >
+
                       {() => <RestaurantsScreen />}
                     </Stack.Screen>
                     <Stack.Screen
                       name="Restaurant"
                     >
-                      {() => <RestaurantScreen />}
+
+                      {(props) => <RestaurantScreen favorites={favorites} setFavorites={setFavorites} {...props} />}
                     </Stack.Screen>
                   </Stack.Navigator>
                 )}
@@ -71,9 +77,9 @@ function App() {
 
               {/* BOUTON FAVORIS */}
               <Tab.Screen
-                name="Favoris"
+                name="Favorisss"
                 options={{
-                  tabBarLabel: "favoris",
+                  tabBarLabel: "favoriss",
                   tabBarIcon: ({ color, size }) => (
                     <AntDesign name="hearto" size={24} color="black" />
                   ),
@@ -92,7 +98,7 @@ function App() {
                         title: "favoris",
                       }}
                     >
-                      {(props) => <FavoritesScreen {...props} />}
+                      {(props) => (<FavoritesScreen favorites={favorites} setFavorites={setFavorites} {...props} />)}
                     </Stack.Screen>
 
                   </Stack.Navigator>
@@ -130,6 +136,7 @@ function App() {
               </Tab.Screen>
             </Tab.Navigator>
           )}
+
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer >

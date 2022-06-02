@@ -1,103 +1,142 @@
-import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet, Image } from 'react-native'
-import data from "../assets/data.json"
-import { useNavigation } from "@react-navigation/native"
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Button, Image, ImageBackground, SafeAreaView, ScrollView } from 'react-native';
 import { useRoute } from "@react-navigation/core";
-import { useState } from "react"
+import { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function RestaurantScreen() {
-    const [favorites, setFavorites] = useState([]);
+export default function RestaurantScreen({ favorites, setFavorites }) {
     const { params } = useRoute();
-    console.log(params);
-    const navigation = useNavigation();
+    const savFav = async () => {
+        const newFav = params.Restaurant;
+        const arrayFav = JSON.parse(
+            await AsyncStorage.getItem("favorites")
+        );
+        if (arrayFav === null) {
+            const newArrayOfFavs = []
+            newArrayOfFavs.push(newFav)
+            console.log('if')
+            console.log(newArrayOfFavs)
+            await AsyncStorage.setItem("favorites", JSON.stringify(newArrayOfFavs))
+        } else {
+            console.log('else')
+            arrayFav.push(newFav);
+            await AsyncStorage.setItem("favorites", JSON.stringify(arrayFav))
+        }
+    };
 
     return (
         <SafeAreaView style={styles.container}>
+            <ScrollView>
+                <Button title='remove' onPress={async () => {
+                    await AsyncStorage.removeItem("favorites")
+                }} />
+                <Button title='remove' onPress={async () => {
+                    console.log(await AsyncStorage.getItem("favorites"))
+                }} />
+                <View>
+                    <View>
 
-            <View style={styles.blocRestaurant}>
-                <View style={styles.blocTitle}>
-                    <Text style={styles.title}>{params.Restaurant.name}</Text>
-                </View>
-                <Image source={{ uri: params.Restaurant.thumbnail }}
-                    style={styles.imgRestaurant}
-                />
-                <View style={styles.infoRestaurant}>
-                    <Text style={styles.informations}>{params.Restaurant.name}</Text>
-                    <Text style={styles.informations}>{params.Restaurant.phone}</Text>
-                    <Text style={styles.informations}>{params.Restaurant.rating}</Text>
-                </View>
-            </View>
-            <View style={styles.blocButton}>
-                <TouchableOpacity style={styles.favButton}>
-                    <Text onPress={() => {
-                        const favs = [...favorites];
-                        favs.push(params.Restaurant);
-                        setFavorites(favs) //favs
-                        console.log(favs)
-                    }}>Add to Fav</Text>
-                </TouchableOpacity>
-            </View>
+                        <View>
+                            <FlatList
+                                horizontal={true}
+                                data={params.Restaurant.pictures}
+                                keyExtractor={(item, index) => index}
+                                renderItem={
+                                    ({ item }) => {
+                                        return (
+                                            <View>
+                                                <ImageBackground source={{ uri: item }}
+                                                    style={styles.imgRestaurant}
+                                                />
+                                            </View>
+                                        )
+                                    }
+                                }
+                            />
+                        </View>
+                        <View style={styles.header}>
+                            <View style={styles.leftBloc}>
+                                <Text style={styles.title}>{params.Restaurant.name}</Text>
+                                <Text style={styles.informations}>{params.Restaurant.rating} / 5</Text>
+                            </View>
+                        </View>
 
+                        <View style={styles.infoRestaurant}>
+                            <Text style={styles.informations}>{params.Restaurant.address}</Text>
+                            <Text style={styles.informations}>{params.Restaurant.phone}</Text>
+                            <Text style={styles.informations}>{params.Restaurant.description}</Text>
+
+                        </View>
+                        <View style={styles.blocButton}>
+                            <TouchableOpacity style={styles.favButton}
+                                onPress={savFav}
+                            >
+                                <Text
+                                    style={styles.informations}
+                                >Add to Fav</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </ScrollView>
         </SafeAreaView>
-
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#f3f0fa"
+        // marginVertical: 90
     },
-    blocTitle: {
-        marginVertical: 20
+    header: {
+        flexDirection: "row"
     },
-    blocRestaurant: {
-        backgroundColor: "#8566cc",
-        borderRadius: 5,
-        width: "90%",
-        height: 500,
-        justifyContent: "flex-start",
-        alignItems: "center"
+    leftBloc: {
+        // backgroundColor: "purple",
+        marginLeft: 10
+    },
+    // rightBloc: {
+    //     backgroundColor: "yellow",
+    //     height: 50,
+    //     width: 100,
+    //     backgroundColor: "black",
+    //     justifyContent: "center",
+    //     alignItems: "center",
+    //     marginBottom: 40,
+    // },
+    icon: {
+        width: 120,
+        height: 40
     },
     imgRestaurant: {
-        width: "100%",
-        height: 150,
-        borderRadius: 5,
-        marginVertical: 10
-
-    },
-    infoRestaurant: {
-        marginTop: 30,
-        // backgroundColor: "#9d85d6",
-        backgroundColor: "red",
-        borderRadius: 5,
-        alignItems: "center",
-        padding: 15
+        width: 500,
+        height: 300,
     },
     title: {
-        fontWeight: "bold",
         fontSize: 25,
-        color: "white"
+        fontWeight: "bold",
+        marginVertical: 10,
+    },
+    infoRestaurant: {
+        alignItems: "center",
+        backgroundColor: "beige",
+        marginVertical: 30,
+        justifyContent: "center"
     },
     informations: {
-        marginVertical: 20,
-        fontSize: 20,
-        fontWeight: "bold"
+        width: "80%",
+        fontSize: 18,
+        fontWeight: "bold",
+        // textAlign: "center"
     },
     blocButton: {
-        justifyContent: "flex-end",
+        justifyContent: "center",
+        backgroundColor: "pink",
+        width: "30%",
+        height: 50,
         alignItems: "center",
-        marginVertical: 15
     },
     favButton: {
-        backgroundColor: "#6cc551",
-        borderRadius: 5,
-        width: "60%",
-        height: 50,
-        justifyContent: "center",
+        // alignContent: "center",
         alignItems: "center",
-        padding: 15
+        // textAlign: "center",
     }
 });
